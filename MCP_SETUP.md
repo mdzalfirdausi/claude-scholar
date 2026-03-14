@@ -23,7 +23,9 @@ Claude Scholar relies on MCP (Model Context Protocol) servers for extended capab
 #### Prerequisites
 
 1. Install [Zotero](https://www.zotero.org/) (optional, for local mode)
-2. Get Zotero API key and library ID from [zotero.org/settings/keys](https://www.zotero.org/settings/keys)
+2. For Web API access, open [Zotero Settings -> Security -> Applications](https://www.zotero.org/settings/security#applications)
+3. Click `Create new private key` to generate your API key
+4. On the same page, the `User ID` shown below the button is the value to use as `ZOTERO_LIBRARY_ID` for a personal library
 
 #### Installation
 

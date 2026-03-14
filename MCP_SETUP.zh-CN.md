@@ -23,7 +23,9 @@ Claude Scholar 依赖 MCP（Model Context Protocol）服务器提供扩展能力
 #### 前置条件
 
 1. 安装 [Zotero](https://www.zotero.org/)（可选，用于本地模式）
-2. 从 [zotero.org/settings/keys](https://www.zotero.org/settings/keys) 获取 API 密钥和库 ID
+2. 如需使用 Web API，请打开 [Zotero 设置 -> Security -> Applications](https://www.zotero.org/settings/security#applications)
+3. 点击 `Create new private key` 生成 API key
+4. 同一页面按钮下方显示的 `User ID`，就是个人库场景下应填写的 `ZOTERO_LIBRARY_ID`
 
 #### 安装
 
