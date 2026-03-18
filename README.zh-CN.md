@@ -14,496 +14,88 @@
   <strong>语言</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
 </div>
 
-> 面向学术研究和软件开发的半自动研究助手。支持 [Claude Code](https://github.com/anthropics/claude-code)、[OpenCode](https://github.com/opencode-ai/opencode) 和 [Codex CLI](https://github.com/openai/codex)，覆盖构思、编码、实验、写作与发表。
+> 面向学术研究和软件开发的半自动研究助手。支持 [Claude Code](https://github.com/anthropics/claude-code)、[Codex CLI](https://github.com/openai/codex) 和 [OpenCode](https://github.com/opencode-ai/opencode)，覆盖文献管理、编码、实验分析、结果报告、写作与项目知识库维护。
 
-## News
+## 最新动态
 
-- **2026-03-18**: **实验结果报告工作流** — 将 `results-analysis` 重构为严格统计分析与真实科研绘图工作流，新增 `stats-appendix` / `figure-catalog` 产物；新增 `results-report` skill 负责实验后总结报告，并将内部实验报告接入 Obsidian `Results/Reports/` 与稳定命名规范
-- **2026-03-17**: **Obsidian 项目知识库** — 内置官方 Obsidian skills + filesystem-first 项目导入，支持保守的已绑定仓库自动同步、默认 `Maps/literature.canvas`、显式触发的 `.base` 视图，以及 detach/archive/purge 生命周期（不需要 MCP）
-- **2026-02-26**: **Zotero MCP Web API 模式** — 支持远程访问，可通过 DOI/arXiv ID/URL 导入论文，进行集合管理、条目更新，安全删除；附 [Claude Code](./MCP_SETUP.zh-CN.md)、[Codex CLI](./MCP_SETUP.zh-CN.md#codex-cli)、[OpenCode](./MCP_SETUP.zh-CN.md#opencode) 三平台配置指南
-- **2026-02-25**: **Codex CLI** 支持 — 新增 `codex` 分支，支持 [OpenAI Codex CLI](https://github.com/openai/codex)，包含 config.toml、40 个 skills、14 个 agents 和 sandbox 安全机制
-- **2026-02-23**: 新增 `setup.sh` 安装脚本 — 面向已有 `~/.claude` 的带备份增量更新，自动备份 `settings.json`，以追加方式合并 hooks/mcpServers/plugins
-- **2026-02-21**: **OpenCode** 支持 — Claude Scholar 现已支持 [OpenCode](https://github.com/opencode-ai/opencode) 作为替代 CLI；切换到 `opencode` 分支获取兼容配置
+- **2026-03-18**: **实验结果报告工作流** — `results-analysis` 现在专注于严格统计、真实科研绘图、`stats-appendix` 与 `figure-catalog`；新增 `results-report` skill 负责实验后总结报告，并将内部实验报告写入 Obsidian `Results/Reports/`，采用稳定命名规范。
+- **2026-03-17**: **Obsidian 项目知识库** — 基于 filesystem-first 的项目知识库工作流，支持项目导入、已绑定仓库自动同步、`Papers / Experiments / Results / Results/Reports / Writing` 路由，且不依赖 MCP。
+- **2026-02-26**: **Zotero MCP Web API 模式** — 支持远程 Zotero 访问、DOI/arXiv/URL 导入、集合管理、条目更新，并补充了 Claude Code、Codex CLI、OpenCode 的配置说明。
 
 <details>
 <summary>查看历史更新日志</summary>
 
+- **2026-02-25**: **Codex CLI** 支持 — 新增 `codex` 分支，支持 [OpenAI Codex CLI](https://github.com/openai/codex)，包含 config.toml、40 个 skills、14 个 agents 和 sandbox 安全机制
+- **2026-02-23**: 新增 `setup.sh` 安装脚本 — 面向已有 `~/.claude` 的带备份增量更新，自动备份 `settings.json`，以追加方式合并 hooks/mcpServers/plugins
+- **2026-02-21**: **OpenCode** 支持 — Claude Scholar 现已支持 [OpenCode](https://github.com/opencode-ai/opencode) 作为替代 CLI；切换到 `opencode` 分支获取兼容配置
 - **2026-02-20**: 双语配置 — 将 `CLAUDE.md` 翻译为英文以便国际用户阅读；新增 `CLAUDE.zh-CN.md` 作为中文备份；中文用户可通过 `cp CLAUDE.zh-CN.md CLAUDE.md` 切换回中文版
 - **2026-02-15**: Zotero MCP 集成 — 新增 `/zotero-review` 和 `/zotero-notes` 命令，更新 `research-ideation` skill 添加 Zotero 集成指南，增强 `literature-reviewer` agent 支持 Zotero MCP 自动论文导入、集合管理、全文阅读和引用导出
 - **2026-02-14**: Hooks 优化 — `security-guard` 重构为两层系统（Block + Confirm），`skill-forced-eval` 按 6 类分组并切换为静默扫描模式，`session-start` 限制显示前 5 项，`session-summary` 新增 30 天日志自动清理，`stop-summary` 分别显示新增/修改/删除计数；移除废弃的 shell 脚本（lib/common.sh、lib/platform.sh）
-- **2026-02-11**: 大版本更新，新增 10 个 skills（research-ideation、results-analysis、citation-verification、review-response、paper-self-review、post-acceptance、daily-coding、frontend-design、ui-ux-pro-max、web-design-reviewer）、7 个 agents、8 个研究工作流命令、2 条新规则（security、experiment-reproducibility）；重构 CLAUDE.md；涉及 89 个文件
+- **2026-02-11**: 大版本更新 — 新增 10 个 skills（research-ideation、results-analysis、citation-verification、review-response、paper-self-review、post-acceptance、daily-coding、frontend-design、ui-ux-pro-max、web-design-reviewer）、7 个 agents、8 个研究工作流命令、2 条新规则（security、experiment-reproducibility）；重构 CLAUDE.md；涉及 89 个文件
 - **2026-01-26**: 所有 Hooks 重写为跨平台 Node.js 版本；README 完全重写；扩展 ML 论文写作知识库；合并 PR #1（跨平台支持）
 - **2026-01-25**: 项目正式开源，v1.0.0 发布，包含 25 个 skills（architecture-design、bug-detective、git-workflow、kaggle-learner、scientific-writing 等）、2 个 agents（paper-miner、kaggle-miner）、30+ 个命令（含 SuperClaude 命令套件）、5 个 Shell Hooks、2 条规则（coding-style、agents）
 
 </details>
 
-## 简介
-
-Claude Scholar 是一个面向学术研究和软件开发的半自动研究助手，提供丰富的技能、命令、代理和钩子，针对以下场景优化：
-- **学术研究** - 完整的研究生命周期：想法生成 → 实验 → 结果分析 → 论文写作 → 审稿回复 → 会议准备
-- **软件开发** - Git 工作流、代码审查、测试驱动开发、ML 项目架构
-- **插件开发** - Skill、Command、Agent、Hook 开发指南与质量评估
-- **项目管理** - 规划文档、代码规范、跨平台钩子驱动的自动化工作流
-
 ## 快速导航
 
-| 主题 | 说明 |
-|------|------|
-| 🚀 [快速开始](#快速开始) | 快速上手指南 |
-| 📚 [核心工作流](#核心工作流) | 论文写作、代码组织、技能进化 |
-| 🛠️ [功能亮点](#功能亮点) | 技能、命令、代理概览 |
-| 📖 [安装指南](#安装选项) | 完整、最小化或选择性安装 |
-| 📦 [MCP 配置](#mcp-服务配置) | Zotero MCP 研究工作流集成 |
-| 🧠 [Obsidian 配置](#obsidian-项目知识库) | 内置 filesystem-first 科研知识库 |
-| 🔧 [项目规则](#项目规则) | 代码风格和代理编排 |
+| 部分 | 作用 |
+|---|---|
+| [为什么使用 Claude Scholar](#为什么使用-claude-scholar) | 快速理解项目定位和适用场景。 |
+| [核心工作流](#核心工作流) | 查看从研究构思到发表的主链路。 |
+| [快速开始](#快速开始) | 选择完整、最小或选择性安装方式。 |
+| [集成能力](#集成能力) | 了解 Zotero 和 Obsidian 如何接入工作流。 |
+| [Primary Workflows](#primary-workflows) | 查看核心研究与开发工作流。 |
+| [Supporting Workflows](#supporting-workflows) | 查看支撑主工作流的后台机制。 |
+| [文档入口](#文档入口) | 快速跳转到 setup、配置和模板文档。 |
+| [Citation](#citation) | 在论文、报告或项目文档中引用 Claude Scholar。 |
+
+## 为什么使用 Claude Scholar
+
+Claude Scholar **不是**那种试图替代研究者、追求 end-to-end 全自动化科研的系统。
+
+它的核心思想很简单：
+
+> **以人的决策为中心，让助手去加速科研流程，而不是替人做最终判断。**
+
+这意味着 Claude Scholar 更适合承担科研中那些高重复、重结构、但仍需要人来把关的环节，例如文献整理、知识沉淀、实验分析、结果汇报和写作辅助；而真正关键的判断始终应该由研究者自己做出：
+
+- 这个问题值不值得做，
+- 哪些文献真正重要，
+- 哪些假设值得继续验证，
+- 哪些结果足够可信，
+- 以及什么应该继续推进、写成论文、投稿，或者及时放弃。
+
+换句话说，Claude Scholar 是一个 **semi-automated research assistant**，而不是一个“全自动科研代理”。
 
 ## 核心工作流
 
-### 主要工作流
-
-完整的学术研究生命周期 - 从想法到发表的 7 个阶段。
-
-#### 1. 研究构思（Zotero 集成）
-
-从想法生成到文献管理的端到端研究启动：
-
-**工具**: `research-ideation` skill + `literature-reviewer` agent + Zotero MCP
-
-**流程**:
-- **5W1H 头脑风暴**: What, Why, Who, When, Where, How → 结构化思维框架
-- **文献搜索与导入**: WebSearch 搜索论文 → 提取 DOI → 通过 `add_items_by_doi` 自动导入 Zotero → 分类到主题子集合（Core Papers、Methods、Applications、Baselines、To-Read）
-- **PDF 与全文分析**: `find_and_attach_pdfs` 批量附加开放获取 PDF → `get_item_fulltext` 读取论文全文进行深度分析（回退：摘要 + 领域知识）
-- **Gap 分析**: 5 种类型（文献、方法论、应用、跨学科、时间）→ 识别 2-3 个具体研究机会
-- **研究问题**: SMART 原则 → 制定具体、可衡量的问题
-- **方法选择与规划**: 评估方法适用性 → 时间线、里程碑、风险评估
-
-**Zotero 集合结构**:
-```
-📁 Research-{Topic}-{YYYY-MM}
-  ├── 📁 Core Papers
-  ├── 📁 Methods
-  ├── 📁 Applications
-  ├── 📁 Baselines
-  └── 📁 To-Read
-```
-
-**输出**: `literature-review.md` + `research-proposal.md` + `references.bib`（从 Zotero 导出）+ 带 PDF 的有序 Zotero 集合
-
-**命令**:
-- `/research-init "topic"` → 完整工作流：创建 Zotero 集合 → 搜索导入论文 → 全文分析 → Gap 分析 → 生成综述与提案
-- `/zotero-review "collection"` → 分析已有 Zotero 集合 → 生成带对比矩阵的文献综述
-- `/zotero-notes "collection"` → 批量阅读论文 → 生成结构化阅读笔记（summary/detailed/comparison 三种格式）
-
-#### 2. ML 项目开发
-
-可维护的 ML 项目结构，用于实验代码：
-
-**工具**: `architecture-design` skill + `code-reviewer` agent + `git-workflow` skill
-
-**流程**:
-- **结构**: Factory & Registry 模式 → 配置驱动模型（仅 `cfg` 参数）→ 由 `rules/coding-style.md` 强制执行
-- **代码风格**: 200-400 行文件 → 需要类型提示 → 配置使用 `@dataclass(frozen=True)` → 最多 3 层嵌套
-- **调试** (`bug-detective`): Python/Bash/JS 的错误模式匹配 → 堆栈跟踪分析 → 反模式识别
-- **Git**: Conventional Commits (`feat/scope: message`) → 分支策略（master/develop/feature）→ 使用 `--no-ff` 合并
-
-**命令**: `/plan`, `/commit`, `/code-review`, `/tdd`
-
-#### 3. 实验分析
-
-实验结果的统计分析和可视化：
-
-**工具**: `results-analysis` skill + `results-report` skill + `data-analyst` agent
-
-**流程**:
-- **数据处理**: 自动化清理和预处理实验日志
-- **统计检验**: t-test, ANOVA, Wilcoxon signed-rank → 验证显著性
-- **可视化**: 严格科研绘图 → 生成带解释线索的发表级图表
-- **消融实验**: 系统化组件分析 → 理解每个部分的贡献
-
-**命令**: `/analyze-results <experiment_dir>` → 生成 strict analysis bundle（分析报告、统计附录、图表目录、真实图表）
-
-#### 4. 论文写作
-
-从模板到最终草稿的系统化论文写作：
-
-**工具**: `ml-paper-writing` skill + `paper-miner` agent + `latex-conference-template-organizer` skill
-
-**流程**:
-- **模板准备**: 下载会议 .zip → 提取主文件 → 删除示例内容 → 输出适合 Overleaf 的干净结构
-- **引文验证** (`citation-verification`): 多层验证（格式 → API → 信息 → 内容）→ 防止幻觉引用
-- **系统化写作**: 叙事框架 → 5 句式摘要公式 → 分节起草与反馈循环
-- **去 AI 化处理** (`writing-anti-ai`): 移除夸大象征、宣传语言、模糊归因 → 添加人性化声音和节奏 → 双语支持（中英文）
-
-**会议**: NeurIPS, ICML, ICLR, ACL, AAAI, COLM, Nature, Science, Cell, PNAS
-
-#### 5. 论文自审
-
-提交前的质量保证：
-
-**工具**: `paper-self-review` skill
-
-**流程**:
-- **结构检查**: 逻辑流畅性、章节平衡、叙事连贯性
-- **逻辑验证**: 论证合理性、主张-证据对齐、假设清晰性
-- **引文审计**: 引用准确性、适当归属、引文完整性
-- **图表质量**: 视觉清晰度、标题完整性、色彩无障碍性
-- **写作润色**: 语法、清晰度、简洁性、学术语气
-- **合规性**: 页数限制、格式要求、伦理披露
-
-**6 项检查清单** → 系统化质量评估
-
-#### 6. 论文提交与 Rebuttal
-
-论文提交和审稿意见回复：
-
-**工具**: `review-response` skill + `rebuttal-writer` agent
-
-**提交流程**:
-- **提交前检查**: 会议特定检查清单（NeurIPS 16 项、ICML 更广泛影响、ICLR LLM 披露）
-- **格式检查**: 页数限制、匿名化、补充材料
-- **最终审查**: 校对、检查引用、验证图表
-
-**Rebuttal 流程**:
-- **审稿意见分析**: 解析并分类评论（主要/次要/错字/误解）
-- **回复策略**: 接受/辩护/澄清/实验 → 针对每种评论类型的定制方法
-- **Rebuttal 写作**: 结构化回复，包含证据和推理
-- **语气管理**: 专业、尊重、基于证据的语言
-
-**命令**: `/rebuttal <review_file>` → 生成完整的 rebuttal 文档和实验计划
-
-#### 7. 录用后处理
-
-会议准备和研究推广：
-
-**工具**: `post-acceptance` skill
-
-**流程**:
-- **演讲**: 幻灯片创建指导（15/20/30 分钟格式）→ 视觉设计原则 → 叙事结构
-- **海报**: 学术海报模板（A0/A1 尺寸）→ 布局优化 → 视觉层次
-- **推广**: 社交媒体内容（Twitter/X, LinkedIn）→ 博客文章 → 新闻稿 → 研究摘要
-
-**命令**: `/presentation`, `/poster`, `/promote` → 自动化内容生成
-
-**覆盖范围**: 90% 的学术研究生命周期（从想法到发表）
-
-### 支撑工作流
-
-这些工作流在后台运行，增强主要工作流。
-
-#### 自动化执行工作流
-
-跨平台钩子（Node.js）自动化工作流执行：
-
-```
-会话开始 → 技能评估 → 会话结束 → 会话停止
-```
-
-- **skill-forced-eval** (`skill-forced-eval.js`): 在每次用户提示之前 → 将所有可用技能（本地 + 插件）按 6 类分组 → 静默扫描模式，仅输出匹配的技能 → 在已绑定科研仓库中额外提示 `obsidian-project-memory` / 文献桥接流程 → 要求实现前激活
-- **session-start** (`session-start.js`): 会话开始时 → 显示 Git 状态、待办事项、可用命令（前 5 项，折叠显示）、包管理器，以及已绑定的 Obsidian project-memory 状态 → 一目了然地展示项目上下文
-- **session-summary** (`session-summary.js`): 会话结束时 → 生成全面的工作日志 → 总结所做的所有更改 → 提供下一步的智能建议 → 对已绑定仓库提醒最小 Obsidian 写回 → 自动清理 30 天前的日志
-- **stop-summary** (`stop-summary.js`): 会话停止时 → 快速状态检查，分别显示新增/修改/删除计数 → 按文件夹分组临时文件（每组前 3 个）→ 对已绑定仓库提醒轻量 Obsidian 维护
-- **security-guard** (`security-guard.js`): 两层安全系统 — **Block 层**: 立即拒绝灾难性命令（rm -rf /、dd、mkfs、系统目录）；**Confirm 层**: 注入 systemMessage 强制模型在执行危险但合法的操作前询问用户（git push --force、git reset --hard、chmod 777、SQL DROP/DELETE/TRUNCATE、敏感文件写入）
-
-**跨平台**: 所有钩子使用 Node.js（非 shell 脚本），确保 Windows/macOS/Linux 兼容性。
-
-#### 知识提取工作流
-
-两个专门的挖掘代理持续提取知识以改进技能：
-
-- **paper-miner** (agent): 分析研究论文（PDF/DOCX/arXiv 链接）→ 提取写作模式、结构见解、会议要求、审稿意见回复策略 → 使用分类条目更新 `ml-paper-writing/references/knowledge/`（structure.md、writing-techniques.md、submission-guides.md、review-response.md）
-- **kaggle-miner** (agent): 研究获胜的 Kaggle 竞赛解决方案 → 提取竞赛简介、前排方案详细技术分析、代码模板、最佳实践 → 更新 `kaggle-learner` skill 的知识库（`references/knowledge/[domain]/` 目录，按 NLP/CV/Time Series/Tabular/Multimodal 分类）
-
-**知识反馈循环**: 每篇分析的论文或解决方案都会丰富知识库，创建一个随您研究进化的自我改进系统。
-
-#### 技能进化系统
-
-维护和改进技能的 3 步持续改进循环：
-
-```
-skill-development → skill-quality-reviewer → skill-improver
-```
-
-1. **开发** (`skill-development`): 创建具有正确 YAML frontmatter 的技能 → 清晰的描述和触发短语 → 渐进式披露（精简的 SKILL.md，详细信息在 `references/`）
-2. **审查** (`skill-quality-reviewer`): 4 维质量评估 → 描述质量（25%）、内容组织（30%）、写作风格（20%）、结构完整性（25%）→ 生成优先修复的改进计划
-3. **改进** (`skill-improver`): 合并建议更改 → 更新文档 → 根据反馈迭代 → 自动读取并应用改进计划
-
-## 文件结构
-
-<details>
-<summary>查看文件结构</summary>
-
-```
-claude-scholar/
-├── hooks/               # 跨平台 JavaScript 钩子（自动化执行）
-│   ├── hook-common.js           # 共享工具（git diff、变更分析）
-│   ├── session-start.js         # 会话开始 - Git 状态、待办事项、前 5 个命令
-│   ├── skill-forced-eval.js     # 静默扫描，6 类技能分组
-│   ├── session-summary.js       # 会话结束 - 工作日志、30 天日志自动清理
-│   ├── stop-summary.js          # 会话停止 - 新增/修改/删除计数、分组临时文件
-│   └── security-guard.js        # 两层安全：Block（灾难性）+ Confirm（危险操作）
-│
-├── skills/              # 45 个专业技能（领域知识 + 工作流，含内置 Obsidian 项目知识库）
-│   ├── ml-paper-writing/        # 完整论文写作：NeurIPS, ICML, ICLR, ACL, AAAI, COLM
-│   │   └── references/
-│   │       └── knowledge/        # 从成功论文中提取的模式
-│   │       ├── structure.md           # 论文组织模式
-│   │       ├── writing-techniques.md  # 句子模板、过渡
-│   │       ├── submission-guides.md   # 会议要求（页数限制等）
-│   │       └── review-response.md     # 审稿意见回复策略
-│   │
-│   ├── research-ideation/        # 研究启动：5W1H、文献综述、Gap 分析
-│   │   └── references/
-│   │       ├── 5w1h-framework.md           # 系统化思维工具
-│   │       ├── gap-analysis-guide.md       # 5 种研究 Gap 类型
-│   │       ├── literature-search-strategies.md
-│   │       ├── research-question-formulation.md
-│   │       ├── method-selection-guide.md
-│   │       └── research-planning.md
-│   │
-│   ├── results-analysis/         # 严格实验分析：统计、科研绘图、消融
-│   │   └── references/
-│   │       ├── statistical-methods.md      # t-test, ANOVA, Wilcoxon
-│   │       ├── statistical-reporting.md    # 统计报告完整性
-│   │       ├── figure-interpretation.md    # 图表解释规范
-│   │       └── common-pitfalls.md          # 常见分析错误
-│   │
-│   ├── results-report/           # 实验后总结报告与复盘
-│   │   └── references/
-│   │       ├── report-structure.md
-│   │       ├── report-naming.md
-│   │       └── decision-oriented-analysis.md
-│   │
-│   ├── review-response/          # 系统化 rebuttal 写作
-│   │   └── references/
-│   │       ├── review-classification.md    # 主要/次要/错字/误解
-│   │       ├── response-strategies.md      # 接受/辩护/澄清/实验
-│   │       ├── rebuttal-templates.md       # 结构化回复模板
-│   │       └── tone-guidelines.md          # 专业语言
-│   │
-│   ├── paper-self-review/        # 6 项质量检查清单
-│   ├── post-acceptance/          # 会议准备
-│   │   └── references/
-│   │       ├── presentation-templates/     # 幻灯片创建（15/20/30 分钟）
-│   │       ├── poster-templates/           # 学术海报设计
-│   │       ├── promotion-examples/         # 社交媒体内容
-│   │       └── design-guidelines.md        # 视觉设计原则
-│   │
-│   ├── citation-verification/    # 多层引文验证
-│   ├── writing-anti-ai/         # 移除 AI 模式：象征主义、宣传语言
-│   │   └── references/
-│   │       ├── patterns-english.md    # 要移除的英文 AI 模式
-│   │       └── patterns-chinese.md     # 要移除的中文 AI 模式
-│   │
-│   ├── architecture-design/     # ML 项目模式：Factory、Registry、配置驱动
-│   ├── git-workflow/            # Git 纪律：Conventional Commits、分支
-│   ├── bug-detective/           # 调试：Python、Bash、JS/TS 错误模式
-│   ├── code-review-excellence/  # 代码审查：安全性、性能、可维护性
-│   ├── skill-development/       # 技能创建：YAML、渐进式披露
-│   ├── skill-quality-reviewer/  # 技能评估：4 维评分
-│   ├── skill-improver/          # 技能进化：合并改进
-│   ├── kaggle-learner/          # 从 Kaggle 获胜解决方案中学习
-│   ├── doc-coauthoring/         # 文档协作工作流
-│   ├── latex-conference-template-organizer  # Overleaf 模板清理
-│   └── ... （10+ 更多技能）
-│
-├── commands/            # 50+ 斜杠命令（快速工作流执行）
-│   ├── research-init.md         # 启动研究启动工作流
-│   ├── obsidian-init.md         # 初始化/导入 Obsidian 项目知识库
-│   ├── obsidian-ingest.md       # 将新的 Markdown 入库到项目知识库
-│   ├── obsidian-review.md       # 从项目笔记生成文献综述
-│   ├── obsidian-notes.md        # 规范化项目论文笔记
-│   ├── obsidian-note.md         # archive/purge/rename 单个 canonical note
-│   ├── obsidian-sync.md         # 强制执行 repo↔memory↔vault 同步
-│   ├── obsidian-link.md         # 重建项目 wikilinks 与知识图
-│   ├── obsidian-project.md      # detach/archive/purge/rebuild 项目知识库
-│   ├── obsidian-views.md        # 显式生成可选的 Views/*.base
-│   ├── zotero-review.md         # 从 Zotero 读取论文，生成文献综述
-│   ├── zotero-notes.md          # 批量阅读 Zotero 论文，生成阅读笔记
-│   ├── analyze-results.md       # 分析实验结果
-│   ├── rebuttal.md              # 生成系统化 rebuttal 文档
-│   ├── presentation.md          # 创建会议演讲大纲
-│   ├── poster.md                # 生成学术海报设计方案
-│   ├── promote.md               # 生成推广内容
-│   ├── plan.md                  # 带代理委托的实施方案规划
-│   ├── commit.md                # Conventional Commits：feat/fix/docs/refactor
-│   ├── code-review.md           # 质量和安全审查工作流
-│   ├── tdd.md                   # 测试驱动开发：Red-Green-Refactor
-│   ├── build-fix.md             # 自动修复构建错误
-│   ├── verify.md                # 运行验证循环
-│   ├── checkpoint.md            # 保存验证状态
-│   ├── refactor-clean.md        # 移除死代码
-│   ├── learn.md                 # 从代码中提取模式
-│   ├── update-github.md         # 提交并推送到 GitHub
-│   ├── update-readme.md         # 更新 README 文档
-│   ├── update-memory.md         # 检查并更新 CLAUDE.md 记忆
-│   ├── create_project.md        # 从模板创建新项目
-│   ├── setup-pm.md              # 配置包管理器（uv/pnpm）
-│   └── sc/                      # SuperClaude 命令套件（30 个命令）
-│       ├── sc-agent.md           # 代理管理
-│       ├── sc-estimate.md       # 开发时间估算
-│       ├── sc-improve.md         # 代码改进
-│       └── ...
-│
-├── agents/              # 15 个专业代理（专注任务委托）
-│   ├── literature-reviewer.md   # 文献搜索和趋势分析
-│   ├── literature-reviewer-obsidian.md  # 从项目知识库进行文献综述
-│   ├── research-knowledge-curator-obsidian.md  # 默认的 Obsidian 项目 curator
-│   ├── data-analyst.md          # 自动化数据分析和可视化
-│   ├── rebuttal-writer.md       # 系统化 rebuttal 写作
-│   ├── paper-miner.md           # 提取论文知识：结构、技巧
-│   ├── architect.md             # 系统设计：架构决策
-│   ├── code-reviewer.md         # 审查代码：质量、安全、最佳实践
-│   ├── tdd-guide.md             # 指导 TDD：测试优先开发
-│   ├── kaggle-miner.md          # 从 Kaggle 提取工程实践
-│   ├── build-error-resolver.md  # 修复构建错误：分析和解决
-│   ├── refactor-cleaner.md      # 移除死代码：检测和清理
-│   ├── bug-analyzer.md          # 深度代码执行流分析和根因调查
-│   ├── dev-planner.md           # 实施规划和任务拆解
-│   ├── ui-sketcher.md           # UI 蓝图设计和交互规范
-│   └── story-generator.md       # 用户故事和需求生成
-│
-├── rules/               # 全局指导原则（始终遵循的约束）
-│   ├── coding-style.md          # ML 项目标准：文件大小、不可变性、类型
-│   ├── agents.md                # 代理编排：何时委托、并行执行
-│   ├── security.md              # 密钥管理、敏感文件保护
-│   └── experiment-reproducibility.md  # 随机种子、配置记录、检查点
-│
-├── CLAUDE.md            # 全局配置：项目概述、偏好设置、规则
-│
-└── README.md            # 本文件 - 概述、安装、功能
-```
-
-</details>
-
-## 功能亮点
-
-### 技能（32 个）
-
-**网页设计：**
-- `frontend-design` - 创建独特、生产级的前端界面
-- `ui-ux-pro-max` - UI/UX 设计智能（50+ 风格、97 色板、9 技术栈）
-- `web-design-reviewer` - 视觉检查和设计问题修复
-
-**写作与学术：**
-- `ml-paper-writing` - 顶级会议/期刊的完整论文写作指导
-- `writing-anti-ai` - 移除 AI 写作模式（双语支持）
-- `doc-coauthoring` - 结构化文档协作工作流
-- `latex-conference-template-organizer` - LaTeX 模板管理
-- `daily-paper-generator` - 自动化每日论文生成，用于研究追踪
-
-**研究工作流：**
-- `research-ideation` - 研究启动：5W1H 头脑风暴、文献综述、Gap 分析
-- `results-analysis` - 严格实验分析：严谨统计、科研绘图、消融实验
-- `results-report` - 实验后总结报告：复盘、决策支持、Obsidian 报告 note
-- `review-response` - 系统化 rebuttal 写作，语气管理
-- `paper-self-review` - 6 项质量检查清单
-- `post-acceptance` - 会议准备：演讲、海报、推广
-- `citation-verification` - 多层引文验证，防止幻觉引用
-
-**开发：**
-- `daily-coding` - 日常编码检查清单（极简模式，自动触发）
-- `git-workflow` - Git 最佳实践（Conventional Commits、分支）
-- `code-review-excellence` - 代码审查指南
-- `bug-detective` - Python、Bash、JS/TS 调试
-- `architecture-design` - ML 项目设计模式
-- `verification-loop` - 测试和验证
-
-**插件开发：**
-- `skill-development` - 技能创建指南
-- `skill-improver` - 技能改进工具
-- `skill-quality-reviewer` - 质量评估
-- `command-development` - 斜杠命令创建
-- `agent-identifier` - 代理配置
-- `hook-development` - 钩子开发指南
-- `mcp-integration` - MCP 服务器集成
-
-**工具：**
-- `uv-package-manager` - 现代 Python 包管理
-- `planning-with-files` - 基于 Markdown 的规划
-- `webapp-testing` - 本地 Web 应用测试
-- `kaggle-learner` - 从 Kaggle 解决方案中学习
-
-### 命令（50+）
-
-**研究命令：**
-| 命令 | 用途 |
-|------|------|
-| `/research-init` | 启动研究启动工作流（5W1H、文献综述、Gap 分析） |
-| `/zotero-review` | 从 Zotero 集合读取论文，并综合到 Obsidian 文献综述与下游项目笔记 |
-| `/zotero-notes` | 批量阅读 Zotero 论文，创建/更新 Obsidian 详细阅读笔记并刷新 `Maps/literature.canvas` |
-| `/obsidian-ingest` | 将新的 Markdown 文件或目录按 classify -> promote / merge / stage-to-daily 入库 |
-| `/obsidian-note` | 对单个 canonical note 执行 archive、purge 或 rename |
-| `/obsidian-views` | 显式生成可选的 `.base` 视图与额外 canvases |
-| `/analyze-results` | 分析实验结果（统计检验、可视化、消融实验） |
-| `/rebuttal` | 从审稿意见生成系统化 rebuttal 文档 |
-| `/presentation` | 创建会议演讲大纲 |
-| `/poster` | 生成学术海报设计方案 |
-| `/promote` | 生成推广内容（Twitter、LinkedIn、博客） |
-
-**开发命令：**
-| 命令 | 用途 |
-|------|------|
-| `/plan` | 创建实施计划 |
-| `/commit` | 使用 Conventional Commits 提交 |
-| `/update-github` | 提交并推送到 GitHub |
-| `/update-readme` | 更新 README 文档 |
-| `/update-memory` | 检查并更新 CLAUDE.md 记忆 |
-| `/code-review` | 执行代码审查 |
-| `/tdd` | 测试驱动开发工作流 |
-| `/build-fix` | 修复构建错误 |
-| `/verify` | 验证更改 |
-| `/checkpoint` | 创建检查点 |
-| `/refactor-clean` | 重构和清理 |
-| `/learn` | 提取可重用模式 |
-| `/create_project` | 从模板创建新项目 |
-| `/setup-pm` | 配置包管理器（uv/pnpm） |
-| `/sc` | SuperClaude 命令套件（30 个命令） |
-
-### 代理（14 个专业）
-
-**研究代理：**
-- **literature-reviewer** - 文献搜索、分类和趋势分析
-- **data-analyst** - 自动化数据分析和可视化
-- **rebuttal-writer** - 系统化 rebuttal 写作，语气优化
-- **paper-miner** - 从成功论文中提取写作知识
-
-**开发代理：**
-- **architect** - 系统架构设计
-- **build-error-resolver** - 修复构建错误
-- **code-reviewer** - 审查代码质量
-- **refactor-cleaner** - 移除死代码
-- **tdd-guide** - 指导 TDD 工作流
-- **kaggle-miner** - 提取 Kaggle 工程实践
-- **bug-analyzer** - 深度代码执行流分析和根因调查
-- **dev-planner** - 实施规划和任务拆解
-
-**设计与内容代理：**
-- **ui-sketcher** - UI 蓝图设计和交互规范
-- **story-generator** - 用户故事和需求生成
+- **Ideation**: turn a vague topic into concrete questions, research gaps, and an initial plan.
+- **Literature**: search, import, organize, and read papers through Zotero collections.
+- **Paper notes**: convert papers into structured reading notes and reusable claims.
+- **Knowledge base**: route durable knowledge into Obsidian across `Papers / Knowledge / Experiments / Results / Results/Reports / Writing`.
+- **Experiments**: track hypotheses, experiment lines, run history, findings, and next actions.
+- **Analysis**: generate strict statistics, real scientific figures, and analysis artifacts with `results-analysis`.
+- **Reporting**: produce a complete post-experiment report with `results-report`, then write it back into Obsidian.
+- **Writing and publication**: carry stable findings into literature reviews, papers, rebuttals, slides, posters, and promotion.
 
 ## 快速开始
 
-### 安装选项
-
-选择适合您需求的安装方式：
-
-#### 选项 1：完整安装（推荐）
-
-带备份地增量更新已有的 `~/.claude` 目录，尽量不动个人配置：
+### 选项 1：完整安装（推荐）
 
 ```bash
 git clone https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude-scholar
 bash /tmp/claude-scholar/scripts/setup.sh
 ```
 
-安装脚本现在支持**带备份的安全增量更新**：
+安装器现在支持**带备份的安全增量更新**：
 - 更新仓库托管的 `skills/commands/agents/rules/hooks/scripts/CLAUDE*.md`
-- 对将被覆盖的文件先备份到 `~/.claude/.claude-scholar-backups/<timestamp>/`
+- 将被覆盖的文件备份到 `~/.claude/.claude-scholar-backups/<timestamp>/`
 - 同时把 `settings.json` 备份为 `settings.json.bak`
-- **保留**你现有的 `env`、模型/provider 配置、API key、permissions，以及已有 `mcpServers` 的具体取值
-- 对 hooks 采用**追加缺失项**的方式，而不是整体替换
+- 保留已有的 `env`、模型/provider 配置、API key、permissions，以及当前 `mcpServers` 的现有取值
+- 对 hooks 采用追加缺失项的方式，而不是整体替换
 
-以后做增量更新时，拉最新代码后再次运行同一个安装脚本即可：
+以后做增量更新时：
 
 ```bash
 cd /tmp/claude-scholar
@@ -511,17 +103,12 @@ git pull --ff-only
 bash scripts/setup.sh
 ```
 
-**包含**：47 个技能、32 个顶层命令、16 个代理、5 个钩子和项目规则。
+### 选项 2：最小化安装
 
-#### 选项 2：最小化安装
-
-仅核心钩子和基本技能（加载更快，复杂度更低）：
+只安装一组较小的研究工作流子集：
 
 ```bash
-# 克隆仓库
 git clone https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude-scholar
-
-# 仅复制钩子和核心技能
 mkdir -p ~/.claude/hooks ~/.claude/skills
 cp /tmp/claude-scholar/hooks/*.js ~/.claude/hooks/
 cp -r /tmp/claude-scholar/skills/ml-paper-writing ~/.claude/skills/
@@ -532,156 +119,317 @@ cp -r /tmp/claude-scholar/skills/review-response ~/.claude/skills/
 cp -r /tmp/claude-scholar/skills/writing-anti-ai ~/.claude/skills/
 cp -r /tmp/claude-scholar/skills/git-workflow ~/.claude/skills/
 cp -r /tmp/claude-scholar/skills/bug-detective ~/.claude/skills/
-
-# 清理
-rm -rf /tmp/claude-scholar
 ```
 
-**安装后**：最小化/手动安装**不会自动合并** `settings.json`；请按需从 `settings.json.template` 里手动复制你需要的 hooks 条目。
+**安装后**：最小化/手动安装**不会自动合并** `settings.json`；请按需从 `settings.json.template` 复制你需要的 hooks 或 MCP 条目。
 
-**包含**：5 个钩子、8 个核心技能（完整研究工作流 + 基本开发）。
+### 选项 3：选择性安装
 
-#### 选项 3：选择性安装
-
-选择和选择特定组件：
+只复制你需要的部分：
 
 ```bash
-# 克隆仓库
 git clone https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude-scholar
 cd /tmp/claude-scholar
 
-# 复制您需要的内容，例如：
-# - 仅钩子
 cp hooks/*.js ~/.claude/hooks/
-
-# - 特定技能
 cp -r skills/latex-conference-template-organizer ~/.claude/skills/
 cp -r skills/architecture-design ~/.claude/skills/
-
-# - 特定代理
 cp agents/paper-miner.md ~/.claude/agents/
-
-# - 项目规则
 cp rules/coding-style.md ~/.claude/rules/
 cp rules/agents.md ~/.claude/rules/
 ```
 
-**安装后**：选择性/手动安装**不会自动合并** `settings.json`；请按需从 `settings.json.template` 手动复制你需要的 hooks 或 MCP 条目。
+**安装后**：选择性/手动安装**不会自动合并** `settings.json`；请按需从 `settings.json.template` 复制你需要的 hooks 或 MCP 条目。
 
-**推荐用于**：想要自定义配置的高级用户。
+## 平台支持
 
-### 系统要求
+Claude Scholar 目前面向以下 CLI 工作流：
 
-- Claude Code CLI
-- Git
-- Node.js（钩子依赖，必需）
-- uv、Python（用于 Python 开发）
-- **Zotero**（用于 Zotero MCP 功能）
-- **Obsidian**（可选 UI/CLI 层，用于内置项目知识库）
+- **Claude Code** — 主安装目标
+- **Codex CLI** — 支持对应工作流与文档
+- **OpenCode** — 作为替代 CLI 支持
 
-### MCP 服务配置
+顶层目标一致：研究、编码、实验、报告、写作、项目知识库维护。
 
-Zotero / 浏览器等 MCP 配置请参阅 [MCP_SETUP.zh-CN.md](./MCP_SETUP.zh-CN.md)；Obsidian 内置知识库请参阅 [OBSIDIAN_SETUP.zh-CN.md](./OBSIDIAN_SETUP.zh-CN.md)。
+## 集成能力
 
-#### Zotero MCP（Zotero 集成工作流）
+### Zotero
 
-如需使用 Zotero 集成的研究工作流，请安装 MCP 服务器：
+适合这些场景：
+- 通过 DOI / arXiv / URL 导入论文
+- 按 collection 批量阅读论文
+- 通过 Zotero MCP 读取 full text
+- 生成详细 paper notes 与 literature synthesis
 
-```bash
-# 从 Galaxy-Dawn fork 安装（Web API 模式）
-uv tool install git+https://github.com/Galaxy-Dawn/zotero-mcp.git
-```
+详见 [MCP_SETUP.zh-CN.md](./MCP_SETUP.zh-CN.md)。
 
-然后在 `~/.claude/settings.json` 中添加：
+### Obsidian
 
-```json
-{
-  "mcpServers": {
-    "zotero": {
-      "command": "zotero-mcp",
-      "args": ["serve"],
-      "env": {
-        "ZOTERO_API_KEY": "your-api-key",
-        "ZOTERO_LIBRARY_ID": "your-library-id",
-        "ZOTERO_LIBRARY_TYPE": "user",
-        "UNPAYWALL_EMAIL": "your-email@example.com",
-        "UNSAFE_OPERATIONS": "all"
-      }
-    }
-  }
-}
-```
+适合这些场景：
+- 维护 filesystem-first 项目知识库
+- 管理 `Papers/`
+- 管理 `Experiments/`
+- 管理 `Results/`
+- 管理 `Results/Reports/`
+- 管理 `Writing/` 与 `Daily/`
 
-#### Obsidian 项目知识库（Obsidian vault 工作流）
+详见 [OBSIDIAN_SETUP.zh-CN.md](./OBSIDIAN_SETUP.zh-CN.md)。
 
-Claude Scholar 现已内置 Obsidian 项目知识库，不需要 MCP。详见 [OBSIDIAN_SETUP.zh-CN.md](./OBSIDIAN_SETUP.zh-CN.md)。
+## 主要工作流
 
-默认文献图谱产物：`Maps/literature.canvas`  
-可选视图：仅在显式执行 `/obsidian-views` 时生成
+完整学术研究生命周期 —— 从研究构思到发表的 7 个阶段。
 
-主要命令：
+### 1. 研究构思（Zotero 集成）
 
-- `/obsidian-init`
-- `/obsidian-ingest`
-- `/obsidian-sync`
-- `/obsidian-link`
-- `/obsidian-review`
-- `/obsidian-notes`
-- `/obsidian-note`
-- `/obsidian-project`
-- `/obsidian-views`
+从想法生成到文献管理的端到端研究启动流程。
 
-### 首次运行
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `research-ideation` | 把模糊研究主题收敛成结构化问题、gap 分析和初始研究计划。 |
+| Agent | `literature-reviewer` | 搜索、分类并综合论文，形成可执行的文献图景。 |
+| Command | `/research-init` | 从文献检索、Zotero 组织到 proposal 草稿，一键启动新研究主题。 |
+| Command | `/zotero-review` | 对已有 Zotero collection 做结构化文献综述与比较。 |
+| Command | `/zotero-notes` | 批量阅读 Zotero collection，并生成结构化论文阅读笔记。 |
 
-安装后，钩子提供自动化工作流辅助：
+**How it works**
+- **5W1H Brainstorming**：把模糊主题收敛成结构化问题。
+- **Literature Search & Import**：搜索论文、提取 DOI/arXiv/URL、导入 Zotero，并组织到主题 collection。
+- **PDF & Full Text**：能挂 PDF 就挂 PDF，能读全文就读全文，必要时回退到摘要分析。
+- **Gap Analysis**：识别 literature / methodology / application / interdisciplinary / temporal 等不同类型的 gap。
+- **Research Question & Planning**：把文献综述进一步转成明确研究问题、初始假设和下一步计划。
 
-1. **每次提示**触发 `skill-forced-eval` → 确保考虑适用技能，并为已绑定科研仓库补上合适的 Obsidian skill 提示
-2. **会话开始**时使用 `session-start` → 显示项目上下文与 bound project-memory 状态
-3. **会话结束**时使用 `session-summary` → 生成带有建议的工作日志，并提醒最小 Obsidian 写回
-4. **会话停止**时使用 `stop-summary` → 提供状态检查与轻量的 bound-repo 维护提醒
+**Typical output**
+- literature review notes
+- 结构化 Zotero collection
+- research proposal / direction draft
+
+### 2. ML 项目开发
+
+面向实验代码的可维护 ML 项目开发工作流。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `architecture-design` | 在新增可注册组件或模块时设计可维护的 ML 项目结构。 |
+| Skill | `git-workflow` | 约束分支规范、commit 规范和更安全的协作流程。 |
+| Skill | `bug-detective` | 系统化排查 stack trace、shell 报错和代码路径问题。 |
+| Agent | `code-reviewer` | 审查改动代码的正确性、可维护性和实现质量。 |
+| Agent | `dev-planner` | 把复杂工程任务拆成可执行的实现步骤。 |
+| Command | `/plan` | 在编码前创建或细化实现计划。 |
+| Command | `/commit` | 为当前改动生成符合规范的 commit。 |
+| Command | `/code-review` | 对当前代码改动执行一次聚焦审查。 |
+| Command | `/tdd` | 以小步、测试驱动的方式推进功能实现。 |
+
+**How it works**
+- **Structure**：在合适场景下使用 Factory / Registry 模式组织 ML 组件。
+- **Code Quality**：保持文件规模、类型提示与配置驱动设计。
+- **Debugging**：系统化处理 stack trace、shell 报错和代码路径问题。
+- **Git Discipline**：维持分支策略、commit 规范和更安全的 merge/rebase 流程。
+
+### 3. 实验分析
+
+严格实验分析工作流：统计、科研图、分析产物与实验后报告。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `results-analysis` | 生成严格统计、真实科研图和分析附录组成的 strict analysis bundle。 |
+| Skill | `results-report` | 把分析产物组织成完整实验总结报告，明确结论、限制和下一步动作。 |
+| Command | `/analyze-results` | 一键执行完整实验后工作流：先严格分析，再生成最终实验报告。 |
+
+**How it works**
+- **Data Processing**：读取实验日志、metrics 文件和结果目录。
+- **Statistical Testing**：在合适前提下执行 t-test / ANOVA / Wilcoxon 等严格统计检验。
+- **Visualization**：生成真实科研图和解释线索，而不是只给模糊的绘图建议。
+- **Ablation & Comparison**：分析组件贡献、性能 tradeoff 和稳定性。
+- **Post-Experiment Reporting**：把 analysis bundle 转成完整实验后总结报告，包含结论、限制和下一步动作。
+
+**Typical output**
+- `analysis-report.md`
+- `stats-appendix.md`
+- `figure-catalog.md`
+- `figures/`
+- 写入 Obsidian `Results/Reports/` 的实验总结报告
+
+### 4. 论文写作
+
+从结构准备到草稿迭代的系统化论文写作工作流。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `ml-paper-writing` | 基于 repo、实验结果和文献上下文撰写投稿导向的 ML/AI 论文。 |
+| Skill | `citation-verification` | 检查参考文献、元数据和 claim-citation 对齐，避免引用错误。 |
+| Skill | `writing-anti-ai` | 减少机械化表述，提升清晰度、节奏和更自然的学术语气。 |
+| Skill | `latex-conference-template-organizer` | 把混乱的会议模板整理成 Overleaf-ready 写作结构。 |
+| Agent | `paper-miner` | 从高质量论文中提炼可复用的写作模式、结构和 venue 经验。 |
+
+**How it works**
+- **Template Preparation**：把会议模板清理成 Overleaf-ready 结构。
+- **Citation Verification**：检查参考文献、元数据和 claim-citation 对齐。
+- **Systematic Writing**：基于 repo、实验结果和文献上下文逐节写作。
+- **Style Refinement**：减少 AI 痕迹，改善节奏、清晰度和学术语气。
+
+### 5. 论文自审
+
+投稿前的质量保障工作流。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `paper-self-review` | 在投稿前系统检查结构、逻辑、引用、图表和合规性。 |
+
+**How it works**
+- **Structure Check**：检查逻辑流、章节平衡和叙事连贯性。
+- **Logic Validation**：检查 claim-evidence 对齐、假设清晰度和论证一致性。
+- **Citation Audit**：检查引用准确性与完整性。
+- **Figure Quality**：检查 caption 完整性、可读性和可访问性。
+- **Compliance**：检查页数限制、格式和披露要求。
+
+### 6. 投稿与 Rebuttal
+
+投稿准备和审稿回复工作流。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `review-response` | 把 reviewer comments 组织成基于证据的 rebuttal 工作流。 |
+| Agent | `rebuttal-writer` | 起草专业、礼貌且结构清晰的 rebuttal 文本。 |
+| Command | `/rebuttal` | 基于审稿意见和现有证据生成完整 rebuttal 草稿。 |
+
+**How it works**
+- **Pre-submission Checks**：检查会议/期刊格式、匿名化和 checklist 要求。
+- **Review Analysis**：把 reviewer comments 分类成可执行的问题。
+- **Response Strategy**：决定是 accept、defend、clarify 还是补实验。
+- **Rebuttal Writing**：生成结构化、基于证据、语气专业的回复文档。
+
+### 7. 录用后处理
+
+论文录用后的会议准备与研究传播工作流。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `post-acceptance` | 支持论文录用后的报告、海报和传播材料准备。 |
+| Command | `/presentation` | 生成会议报告的结构和讲解指导。 |
+| Command | `/poster` | 整理论文内容并生成 poster 版式与内容指导。 |
+| Command | `/promote` | 起草面向外部传播的摘要、帖子或 thread 内容。 |
+
+**How it works**
+- **Presentation**：准备 talk 结构和 slides 指导。
+- **Poster**：整理 poster 内容层级和版式。
+- **Promotion**：生成社交媒体、博客或简明研究摘要。
+
+## 支撑工作流
+
+这些工作流运行在主工作流背后，用来增强整体使用体验。
+
+### Obsidian 项目知识库
+
+把 Obsidian 当作 durable research knowledge sink，而不是简单笔记堆放地。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `obsidian-project-memory` | 维护项目级 Obsidian 知识库，并决定哪些稳定知识需要写回。 |
+| Skill | `obsidian-project-bootstrap` | 为新项目或已有科研项目初始化对应的 Obsidian 知识库结构。 |
+| Skill | `obsidian-research-log` | 将每日研究进展、计划、想法和 TODO 写入知识库。 |
+| Skill | `obsidian-experiment-log` | 在 Obsidian 中记录实验设置、运行过程、结果和后续动作。 |
+| Command | `/obsidian-ingest` | 把新的 Markdown 文件或目录整理并纳入正确的知识库位置。 |
+| Command | `/obsidian-note` | 对单个 note 执行查找、重命名、归档或删除等生命周期操作。 |
+| Command | `/obsidian-views` | 生成或刷新可选的 Obsidian 视图文件，例如 `.base`。 |
+
+**How it works**
+- 将已有 repo 绑定到 Obsidian vault
+- 把稳定知识路由进 `Papers / Experiments / Results / Results/Reports / Writing`
+- 保守地维护 `Daily/` 和 project memory
+- 把新的 Markdown 文件分类并合并进正确的 canonical note
+- 按需生成额外 views 和 canvases
+
+### 自动化约束工作流
+
+跨平台 hooks 自动执行日常检查与提醒。
+
+**Hooks**
+- `skill-forced-eval.js`
+- `session-start.js`
+- `session-summary.js`
+- `stop-summary.js`
+- `security-guard.js`
+
+**How it works**
+- **Before prompts**：评估当前 prompt 应该触发哪些 skills，并补充相关 workflow 提示。
+- **At session start**：显示 Git 状态、可用命令和 project-memory 上下文。
+- **At session end/stop**：总结工作内容，并提醒最小维护动作。
+- **Security**：拦截灾难性命令，并对危险但合理的操作要求确认。
+
+### 知识提炼工作流
+
+专门的 agents 可持续提炼论文和竞赛里的可复用知识。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Agent | `paper-miner` | 从高质量论文中提炼可复用的写作知识、结构模式和 venue 经验。 |
+| Agent | `kaggle-miner` | 从优秀 Kaggle 工作流中提炼工程实践和解决方案模式。 |
+
+**How it works**
+- 从论文中提炼写作模式、会议要求和 rebuttal 策略
+- 从 Kaggle 工作流中提炼工程模式和解决方案结构
+- 再把这些知识回流进 skills 与 references
+
+### 技能进化系统
+
+Claude Scholar 也内置了自我改进的 skill 工作流。
+
+| 类型 | 名字 | 一句话解释 |
+|---|---|---|
+| Skill | `skill-development` | 创建具备清晰触发条件、结构和渐进展开方式的新 skill。 |
+| Skill | `skill-quality-reviewer` | 从内容质量、组织方式、表达风格和结构完整性审查 skill。 |
+| Skill | `skill-improver` | 根据结构化改进计划持续优化已有 skills。 |
+
+**How it works**
+- 创建带有清晰 trigger 描述的新 skill
+- 按多个质量维度审查 skill
+- 合并改进建议并持续迭代
+
+## 文档入口
+
+- [MCP_SETUP.zh-CN.md](./MCP_SETUP.zh-CN.md) — Zotero / 浏览器 MCP 配置
+- [OBSIDIAN_SETUP.zh-CN.md](./OBSIDIAN_SETUP.zh-CN.md) — Obsidian 项目知识库工作流
+- [CLAUDE.md](./CLAUDE.md) — 完整本地配置、技能列表与工作流说明
+- [CLAUDE.zh-CN.md](./CLAUDE.zh-CN.md) — 中文版主配置文档
+- [settings.json.template](./settings.json.template) — hooks / plugins / MCP 的可选模板
 
 ## 项目规则
 
-### 代码风格
+Claude Scholar 包含以下方面的项目规则：
+- 代码风格
+- agent 编排
+- 安全约束
+- 实验可复现性
 
-由 `rules/coding-style.md` 强制执行：
-- **文件大小**：最大 200-400 行
-- **不可变性**：配置使用 `@dataclass(frozen=True)`
-- **类型提示**：所有函数都需要
-- **模式**：所有模块使用 Factory & Registry
-- **配置驱动**：模型仅接受 `cfg` 参数
-
-### 代理编排
-
-在 `rules/agents.md` 中定义：
-- 可用的代理类型和用途
-- 并行任务执行
-- 多视角分析
-
-### 安全规则
-
-在 `rules/security.md` 中定义：
-- 密钥管理（环境变量、`.env` 文件）
-- 敏感文件保护（禁止提交 token、密钥、凭证）
-- 通过钩子进行提交前安全检查
-
-### 实验可复现性
-
-在 `rules/experiment-reproducibility.md` 中定义：
-- 随机种子管理，确保可复现性
-- 配置记录（Hydra 自动保存）
-- 环境记录和检查点管理
+这些规则体现在仓库附带的 rules 以及 `CLAUDE.md` 中。
 
 ## 贡献
 
-这个半自动研究助手仍然高度可定制，也欢迎您：
-- Fork 并适应您自己的研究
-- 通过 issue 提交错误
-- 通过 issue 建议改进
+欢迎提交 issue、PR 和工作流改进建议。
+
+如果你想改 installer、Zotero 工作流或 Obsidian 路由，建议在提案中说明：
+- 用户场景
+- 当前限制
+- 预期行为
+- 兼容性影响
 
 ## 许可证
 
-MIT 许可证
+MIT License。
+
+## 引用
+
+如果 Claude Scholar 对你的研究或工程工作流有帮助，你可以按下面方式引用：
+
+```bibtex
+@misc{claude_scholar_2026,
+  title        = {Claude Scholar: Semi-automated research assistant for academic research and software development},
+  author       = {Gaorui Zhang},
+  year         = {2026},
+  howpublished = {\url{https://github.com/Galaxy-Dawn/claude-scholar}},
+  note         = {GitHub repository}
+}
+```
 
 ## 致谢
 
