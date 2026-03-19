@@ -19,7 +19,7 @@
 ## Recent News
 
 - **2026-03-18**: **Results reporting, writing memory, and workflow cleanup** — split post-experiment work into `results-analysis` for strict statistics, real scientific figures, `analysis-report` / `stats-appendix` / `figure-catalog`, and `results-report` for decision-oriented post-experiment reports with Obsidian write-back; removed the redundant `data-analyst` entrypoint, made `/analyze-results` the default one-shot command for analysis + report generation, introduced a global `paper-miner` writing memory with the new `/mine-writing-patterns` command, wired `ml-paper-writing` and `review-response` to read that shared memory, refreshed the README around human-centered semi-automation, and updated the project logo.
-- **2026-03-17**: **Obsidian project knowledge base** — filesystem-first project knowledge base with project import, repo-bound auto-sync, `Papers / Experiments / Results / Results/Reports / Writing` routing, and no MCP requirement.
+- **2026-03-17**: **Obsidian project knowledge base** — filesystem-first project knowledge base with project import, repo-bound auto-sync, durable knowledge routed across `Papers / Knowledge / Experiments / Results / Writing`, round-level experiment reports stored under `Results/Reports/`, and no MCP requirement.
 - **2026-02-26**: **Zotero MCP Web API mode** — remote Zotero access, DOI/arXiv/URL import, collection management, item updates, and safer setup guidance across Claude Code, Codex CLI, and OpenCode.
 
 <details>
@@ -73,7 +73,7 @@ In other words, Claude Scholar is a **semi-automated research assistant**, not a
 - **Ideation**: turn a vague topic into concrete questions, research gaps, and an initial plan.
 - **Literature**: search, import, organize, and read papers through Zotero collections.
 - **Paper notes**: convert papers into structured reading notes and reusable claims.
-- **Knowledge base**: route durable knowledge into Obsidian across `Papers / Knowledge / Experiments / Results / Results/Reports / Writing`.
+- **Knowledge base**: route durable knowledge into Obsidian across `Papers / Knowledge / Experiments / Results / Writing`, with round-level experiment reports stored under `Results/Reports/`.
 - **Experiments**: track hypotheses, experiment lines, run history, findings, and next actions.
 - **Analysis**: generate strict statistics, real scientific figures, and analysis artifacts with `results-analysis`.
 - **Reporting**: produce a complete post-experiment report with `results-report`, then write it back into Obsidian.
@@ -342,7 +342,7 @@ Use Obsidian as the durable sink for project knowledge, not just as a note dump.
 
 **How it works**
 - bind an existing repo to an Obsidian vault,
-- route stable knowledge into `Papers / Experiments / Results / Results/Reports / Writing`,
+- route stable knowledge into `Papers / Knowledge / Experiments / Results / Writing`, with round-level experiment reports stored under `Results/Reports/`,
 - keep `Daily/` and project memory updated conservatively,
 - ingest new Markdown files into the correct canonical destination,
 - optionally generate extra views and canvases.
