@@ -11,7 +11,10 @@
     <img src="https://img.shields.io/badge/OpenCode-Compatible-orange?style=flat-square" alt="OpenCode"/>
   </p>
 
+
   <strong>Language</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
+
+  <p><em>Branch note</em>: the <code>main</code> branch is the Claude Code workflow. If you use Codex CLI, please see the <a href="https://github.com/Galaxy-Dawn/claude-scholar/tree/codex"><code>codex</code> branch</a>. If you use OpenCode, please see the <a href="https://github.com/Galaxy-Dawn/claude-scholar/tree/opencode"><code>opencode</code> branch</a>.</p>
 </div>
 
 > Semi-automated research assistant for academic research and software development. Supports [Claude Code](https://github.com/anthropics/claude-code), [Codex CLI](https://github.com/openai/codex), and [OpenCode](https://github.com/opencode-ai/opencode) across literature review, coding, experiments, reporting, writing, and project knowledge management.
@@ -80,8 +83,6 @@ In other words, Claude Scholar is a **semi-automated research assistant**, not a
 - **Writing and publication**: carry stable findings into literature reviews, papers, rebuttals, slides, posters, and promotion.
 
 ## Quick Start
-
-> **Branch note**: the `main` branch is the Claude Code workflow. If you use Codex CLI, please see the [`codex` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/codex). If you use OpenCode, please see the [`opencode` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/opencode).
 
 ### Requirements
 
