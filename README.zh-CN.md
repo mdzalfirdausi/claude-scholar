@@ -111,6 +111,8 @@ git clone https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude-scholar
 bash /tmp/claude-scholar/scripts/setup.sh
 ```
 
+**Windows**：请使用 Git Bash / WSL 运行安装脚本。
+
 安装器现在支持**带备份的安全增量更新**：
 - 更新仓库托管的 `skills/commands/agents/rules/hooks/scripts/CLAUDE*.md`
 - 将被覆盖的文件备份到 `~/.claude/.claude-scholar-backups/<timestamp>/`

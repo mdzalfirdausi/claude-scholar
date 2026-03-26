@@ -111,6 +111,8 @@ git clone https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude-scholar
 bash /tmp/claude-scholar/scripts/setup.sh
 ```
 
+**Windows**: please use Git Bash or WSL to run the installer.
+
 The installer is **backup-aware and incremental-update friendly**:
 - updates repo-managed `skills/commands/agents/rules/hooks/scripts/CLAUDE*.md`,
 - backs up overwritten files to `~/.claude/.claude-scholar-backups/<timestamp>/`,
